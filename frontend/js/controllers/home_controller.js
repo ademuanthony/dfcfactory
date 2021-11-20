@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import { onConnect, onInit } from '../services/blockchain'
+import { fetchAccountData, onConnect, onInit } from '../services/blockchain'
 
 export default class extends Controller {
   static get targets () {
@@ -10,10 +10,9 @@ export default class extends Controller {
 
   initialize () {
     onInit()
-    fetchDa
   }
 
   connectWallet () {
-    onConnect()
+    onConnect(fetchAccountData)
   }
 }

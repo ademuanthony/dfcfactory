@@ -1,7 +1,6 @@
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Web3 from 'web3'
-import ABI from './abi/abi.json'
 
 export const bnb = 1e18
 export const dfc = 1e8
@@ -38,6 +37,9 @@ export const onInit = () => {
  * Connect wallet button pressed.
  */
 export const onConnect = async (prepare) => {
+  if (provider) {
+    return
+  }
   console.log('Opening a dialog', web3Modal)
   try {
     provider = await web3Modal.connect()
@@ -93,27 +95,15 @@ export const onDisconnect = async () => {
  * Kick in the UI action after Web3modal dialog has chosen a provider
  */
 export const fetchAccountData = async () => {
-
   // Get a Web3 instance for the wallet
-  const web3 = new Web3(provider);
+  const web3 = new Web3(provider)
 
   // Get list of accounts of the connected wallet
-  const accounts = await web3.eth.getAccounts();
+  const accounts = await web3.eth.getAccounts()
 
   // MetaMask does not give you all accounts, only the selected account
-  console.log("Got accounts", accounts);
-  selectedAccount = accounts[0];
+  console.log('Got accounts', accounts)
+  let selectedAccount = accounts[0]
 
   console.log(selectedAccount)
-
-  // Because rendering account does its own RPC commucation
-  // with Ethereum node, we do not want to display any results
-  // until data for all accounts is loaded
-  await Promise.all(rowResolvers);
-
-  // Display fully loaded UI for wallet data
-  document.querySelector("#prepare").style.display = "none";
-  document.querySelector("#connected").style.display = "block";
 }
-
-

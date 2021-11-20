@@ -50,8 +50,8 @@ module.exports = {
   ],
   output: {
     filename: 'js/[name].bundle.js',
-    path: path.resolve(__dirname, '../static/dist'),
-    publicPath: '/wwwroot/dist/'
+    path: path.resolve(__dirname, '../wwwroot/dist'),
+    publicPath: '/dist/'
   },
   // Fixes weird issue with watch script. See
   // https://github.com/webpack/webpack/issues/2297#issuecomment-289291324
