@@ -7,7 +7,8 @@ import Web3Modal from 'web3modal'
 import { ellipseAddress } from '../lib/utilities'
 import contractAbi from '../abi/contract.json'
 import dfcAbi from '../abi/dfcToken.json'
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { reducer, initialState } from '../store/index'
 
 const providerOptions = {
@@ -141,7 +142,6 @@ export const Home = (): JSX.Element => {
 
   const [amount, setAmount] = useState<number>(100000000)
   const [referral, setReferral] = useState<string>('')
-
   const invest = useCallback(
     async function (e) {
       e.preventDefault()
@@ -263,7 +263,7 @@ export const Home = (): JSX.Element => {
                       <form
                         className="form"
                         onSubmit={(e) => invest(e)}
-                        style={{ border: '1px solid #dee2e6;', padding: 20 }}
+                        style={{ border: '1px solid #dee2e6', padding: 20 }}
                       >
                         <article className="row">
                           <div className="col-md-4 col-sm-6 col-xs-12">
@@ -430,11 +430,20 @@ export const Home = (): JSX.Element => {
                             className="form-control"
                             defaultValue="https://www.example.com/637687267438"
                             aria-describedby="basic-addon2"
+                            id="referral-input"
                           />
                           <div className="input-group-append">
                             <button
                               className="input-group-text btn"
                               id="basic-addon2"
+                              onClick={() => {
+                                const value =
+                                  document.getElementById(
+                                    'referral-input'
+                                  ).value
+                                navigator.clipboard.writeText(value)
+                                toast('Copied to clipboard.')
+                              }}
                             >
                               Copy
                             </button>
@@ -518,6 +527,7 @@ export const Home = (): JSX.Element => {
           </a>
         </div>
       </footer>
+      <ToastContainer />
     </Layout>
   )
 }
