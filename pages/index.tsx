@@ -1,10 +1,12 @@
 import Layout from '../components/Layout'
 
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import { providers } from 'ethers'
-import { useCallback, useEffect, useReducer } from 'react'
+import { Contract, providers, BigNumber } from 'ethers'
+import { useCallback, useEffect, useReducer, useState } from 'react'
 import Web3Modal from 'web3modal'
 import { ellipseAddress } from '../lib/utilities'
+import contractAbi from '../abi/contract.json'
+import dfcAbi from '../abi/dfcToken.json'
 
 import { reducer, initialState } from '../store/index'
 
@@ -31,7 +33,9 @@ if (typeof window !== 'undefined') {
 
 export const Home = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { provider, web3Provider, address } = state
+  const { provider, web3Provider, address, contract, dfcToken } = state
+
+  const contractAddress = '0x74789d27d3bd969f2b61d64796f50f77d0d93776'
 
   const connect = useCallback(async function () {
     // This is the initial `provider` that is returned when
@@ -48,10 +52,20 @@ export const Home = (): JSX.Element => {
 
     const network = await web3Provider.getNetwork()
 
+    const contract = new Contract(contractAddress, contractAbi, signer)
+
+    const dfcToken = new Contract(
+      '0x651b6adf55249f285100dcf0fc29ee5b192583ac',
+      dfcAbi,
+      signer
+    )
+
     dispatch({
       type: 'SET_WEB3_PROVIDER',
       provider,
       web3Provider,
+      contract,
+      dfcToken,
       address,
       chainId: network.chainId,
     })
@@ -116,6 +130,41 @@ export const Home = (): JSX.Element => {
       }
     }
   }, [provider, disconnect])
+
+  const [amount, setAmount] = useState<number>(100000000)
+  const [referral, setReferral] = useState<string>('')
+
+  const invest = useCallback(
+    async function (e) {
+      e.preventDefault()
+      if (!contract) {
+        alert('please connect your wallet to continue')
+        return
+      }
+      const inputAmount = BigNumber.from(amount)
+      if (inputAmount.lt(BigNumber.from('100000000'))) {
+        window.alert('Please enter 100000000 and above')
+        return
+      }
+
+      const balance = await dfcToken.balanceOf(address)
+
+      if (inputAmount.gt(balance)) {
+        window.alert('Insufficient balance')
+      }
+
+      // if the user had not approve the amount to be spent, approve then invest
+      const allowance = await dfcToken.allowance(address, contractAddress)
+      if (inputAmount.gt(allowance)) {
+        window.alert(`Please approve ${amount} DFC to continue`)
+        await dfcToken.approve(contractAddress, inputAmount)
+      }
+
+      await contract.invest(0, referral, inputAmount)
+      alert('Invested')
+    },
+    [contract, dfcToken]
+  )
 
   return (
     <Layout>
@@ -210,7 +259,7 @@ export const Home = (): JSX.Element => {
                           </tbody>
                         </table>
                       </div>
-                      <form className="form-inline">
+                      <form className="form-inline" onSubmit={(e) => invest(e)}>
                         <div className="form-group mb-2">
                           <label>
                             <strong>Invest (DFC)</strong>
@@ -218,13 +267,33 @@ export const Home = (): JSX.Element => {
                         </div>
                         <div className="form-group mx-sm-3 mb-2">
                           <input
+                            value={amount}
+                            onChange={(e) =>
+                              setAmount(parseFloat(e.target.value))
+                            }
                             type="number"
+                            min="100000000"
                             className="form-control"
                             id="invest-input"
                             placeholder="Amount"
                           />
                         </div>
-                        <button type="button" className="btn btn-dark mb-2">
+                        <div className="form-group mb-2">
+                          <label>
+                            <strong>Referral ID</strong>
+                          </label>
+                        </div>
+                        <div className="form-group mx-sm-3 mb-2">
+                          <input
+                            value={referral}
+                            onChange={(e) => setReferral(e.target.value)}
+                            type="text"
+                            className="form-control"
+                            id="invest-input"
+                            placeholder="Ref ID"
+                          />
+                        </div>
+                        <button type="submit" className="btn btn-dark mb-2">
                           Confirm
                         </button>
                       </form>
