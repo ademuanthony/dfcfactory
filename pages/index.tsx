@@ -259,43 +259,77 @@ export const Home = (): JSX.Element => {
                           </tbody>
                         </table>
                       </div>
-                      <form className="form-inline" onSubmit={(e) => invest(e)}>
-                        <div className="form-group mb-2">
-                          <label>
-                            <strong>Invest (DFC)</strong>
-                          </label>
-                        </div>
-                        <div className="form-group mx-sm-3 mb-2">
-                          <input
-                            value={amount}
-                            onChange={(e) =>
-                              setAmount(parseFloat(e.target.value))
-                            }
-                            type="number"
-                            min="100000000"
-                            className="form-control"
-                            id="invest-input"
-                            placeholder="Amount"
-                          />
-                        </div>
-                        <div className="form-group mb-2">
-                          <label>
-                            <strong>Referral ID</strong>
-                          </label>
-                        </div>
-                        <div className="form-group mx-sm-3 mb-2">
-                          <input
-                            value={referral}
-                            onChange={(e) => setReferral(e.target.value)}
-                            type="text"
-                            className="form-control"
-                            id="invest-input"
-                            placeholder="Ref ID"
-                          />
-                        </div>
-                        <button type="submit" className="btn btn-dark mb-2">
-                          Confirm
-                        </button>
+                      <br />
+                      <form className="form" onSubmit={(e) => invest(e)}>
+                        <article className="row">
+                          <div className="col-md-4 col-sm-6 col-xs-12">
+                            <div className="form-group mb-2">
+                              <label>
+                                <strong>Invest (DFC)</strong>
+                              </label>
+                            </div>
+                            <div
+                              className="form-group mx-sm-3 mb-2"
+                              style={{ marginLeft: '0 !important' }}
+                            >
+                              <input
+                                value={amount}
+                                onChange={(e) =>
+                                  setAmount(parseFloat(e.target.value))
+                                }
+                                type="number"
+                                min="100000000"
+                                className="form-control"
+                                id="invest-input"
+                                placeholder="Amount"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            className="col-md-4 col-sm-6 col-xs-12"
+                            style={{ marginLeft: '0 !important' }}
+                          >
+                            <div className="form-group mb-2">
+                              <label>
+                                <strong>
+                                  Referral ID{' '}
+                                  <small style={{ color: 'red' }}>
+                                    (Optional)
+                                  </small>
+                                </strong>
+                              </label>
+                            </div>
+                            <div
+                              className="form-group mx-sm-3 mb-2 ml-0"
+                              style={{ marginLeft: '0 !important' }}
+                            >
+                              <input
+                                value={referral}
+                                onChange={(e) => setReferral(e.target.value)}
+                                type="text"
+                                className="form-control"
+                                id="invest-input"
+                                placeholder="Ref ID"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            className="col-md-4 col-sm-6 col-xs-12"
+                            style={{ marginLeft: '0 !important' }}
+                          >
+                            <label className="mb-3">
+                              <strong>&nbsp;</strong>
+                            </label>
+                            <div>
+                              <button
+                                type="submit"
+                                className="btn btn-dark mb-2"
+                              >
+                                Confirm
+                              </button>
+                            </div>
+                          </div>
+                        </article>
                       </form>
                     </div>
                   </div>
@@ -392,14 +426,6 @@ export const Home = (): JSX.Element => {
                 </article>
               </section>
             </article>
-
-            <div data-controller="home">
-              <input data-hello-target="name" type="text" />
-
-              <button data-action="click->home#greet">Greet</button>
-
-              <span data-hello-target="output"></span>
-            </div>
           </section>
 
           <section
