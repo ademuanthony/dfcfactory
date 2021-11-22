@@ -1,3 +1,8 @@
+export type History = {
+  date?: string
+  action?: string
+  amount?: number
+}
 export type StateType = {
   provider?: any
   web3Provider?: any
@@ -5,6 +10,9 @@ export type StateType = {
   dfcToken?: any
   address?: string
   chainId?: number
+  histories?: History[]
+  totalDeposit?: number
+  totalWithdrawal?: number
 }
 
 export type ActionType =
@@ -36,6 +44,15 @@ export const initialState: StateType = {
   dfcToken: null,
   address: null,
   chainId: null,
+  histories: [
+    { date: '2021-08-05 10:17:21', action: 'Withdrawal', amount: 1000000 },
+    { date: '2021-08-10 18:17:21', action: 'Deposit', amount: 12000000 },
+    { date: '2021-08-15 08:17:21', action: 'Withdrawal', amount: 7000000 },
+    { date: '2021-09-03 19:17:21', action: 'Deposit', amount: 10000000 },
+    { date: '2021-10-21 05:17:21', action: 'Withdrawal', amount: 14000000 },
+  ],
+  totalDeposit: 0.0,
+  totalWithdrawal: 0.0,
 }
 
 export function reducer(state: StateType, action: ActionType): StateType {

@@ -33,7 +33,16 @@ if (typeof window !== 'undefined') {
 
 export const Home = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { provider, web3Provider, address, contract, dfcToken } = state
+  const {
+    provider,
+    web3Provider,
+    address,
+    contract,
+    dfcToken,
+    histories,
+    totalDeposit,
+    totalWithdrawal,
+  } = state
 
   const contractAddress = '0x74789d27d3bd969f2b61d64796f50f77d0d93776'
 
@@ -53,7 +62,6 @@ export const Home = (): JSX.Element => {
     const network = await web3Provider.getNetwork()
 
     const contract = new Contract(contractAddress, contractAbi, signer)
-
     const dfcToken = new Contract(
       '0x651b6adf55249f285100dcf0fc29ee5b192583ac',
       dfcAbi,
@@ -163,7 +171,7 @@ export const Home = (): JSX.Element => {
       await contract.invest(0, referral, inputAmount)
       alert('Invested')
     },
-    [contract, dfcToken]
+    [contract, dfcToken, address, amount, referral]
   )
 
   return (
@@ -171,13 +179,8 @@ export const Home = (): JSX.Element => {
       <header>
         <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
           <div className="container">
-            <a
-              className="navbar-brand"
-              asp-area=""
-              asp-controller="Home"
-              asp-action="Index"
-            >
-              DFCFactor
+            <a className="navbar-brand" href="/">
+              <img src="logo.png" />
             </a>
             <button
               className="navbar-toggler"
@@ -478,11 +481,13 @@ export const Home = (): JSX.Element => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>--</td>
-                          <td>--</td>
-                          <td>--</td>
-                        </tr>
+                        {histories.map((h) => (
+                          <tr key={h.date}>
+                            <td>{h.date}</td>
+                            <td>{h.action}</td>
+                            <td>{h.amount} DFC</td>
+                          </tr>
+                        ))}
                       </tbody>
                       <tfoot>
                         <tr>
@@ -491,9 +496,9 @@ export const Home = (): JSX.Element => {
                           <th>Total Withdrawal</th>
                         </tr>
                         <tr>
-                          <th>0.0000000DFC</th>
+                          <th>{totalDeposit} DFC</th>
                           <td>&nbsp;</td>
-                          <th>0.0000000DFC</th>
+                          <th>{totalWithdrawal} DFC</th>
                         </tr>
                       </tfoot>
                     </table>
