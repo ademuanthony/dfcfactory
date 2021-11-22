@@ -203,10 +203,7 @@ export const Home = (): JSX.Element => {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <button
-                      onClick={disconnect}
-                      className="btn btn-outline-dark"
-                    >
+                    <button onClick={disconnect} className="btn btn-default">
                       Logout
                     </button>
                   </li>
@@ -216,7 +213,7 @@ export const Home = (): JSX.Element => {
               {!web3Provider && (
                 <ul className="navbar-nav">
                   <li className="nav-item">
-                    <button onClick={connect} className="btn btn-outline-dark">
+                    <button onClick={connect} className="btn btn-default">
                       Login
                     </button>
                   </li>
@@ -232,7 +229,7 @@ export const Home = (): JSX.Element => {
           <section className="container-fluid">
             <article className="jumbotron">
               <p>
-                Supported: <button className="btn btn-dark">DFC</button>
+                Supported: <button className="btn btn-default">DFC</button>
               </p>
               <section className="row">
                 <article className="col-md-8">
@@ -327,7 +324,7 @@ export const Home = (): JSX.Element => {
                             <div>
                               <button
                                 type="submit"
-                                className="btn btn-dark mb-2"
+                                className="btn btn-default mb-2"
                               >
                                 Confirm
                               </button>
@@ -349,6 +346,22 @@ export const Home = (): JSX.Element => {
                         transaction history and balance of the smart contract
                         before investing. High risk - high profit, DYOR
                       </p>
+                      <ul>
+                        <li>5% Daily earning.</li>
+                        <li>150% ROI.</li>
+                        <li>Withdraw every 10 days.</li>
+                        <li>5 level referral earnings.</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="card">
+                    <div className="card-body">
+                      <h2>DISCLAIMER!!!</h2>
+                      <p>
+                        This is a <strong>high risk and high return</strong>{' '}
+                        platform. <strong>Invest what you can lose!</strong>
+                      </p>
                     </div>
                   </div>
                 </article>
@@ -362,7 +375,7 @@ export const Home = (): JSX.Element => {
                       </p>
                       <p>
                         <strong>$0.0000000</strong>{' '}
-                        <button className="btn btn-dark">Harvest</button>
+                        <button className="btn btn-default">Harvest</button>
                       </p>
                       <hr />
                       <p>DFC in Wallet</p>
@@ -372,7 +385,7 @@ export const Home = (): JSX.Element => {
                       <p>
                         <strong>$0.0000000</strong>{' '}
                         <button
-                          className="btn btn-outline-dark"
+                          className="btn btn-default"
                           data-toggle="modal"
                           data-target="#historyModal"
                         >
