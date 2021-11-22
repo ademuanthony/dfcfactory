@@ -46,7 +46,6 @@ export const Home = (): JSX.Element => {
   } = state
 
   const contractAddress = '0x74789d27d3bd969f2b61d64796f50f77d0d93776'
-
   const connect = useCallback(async function () {
     // This is the initial `provider` that is returned when
     // using web3Modal to connect. Can be MetaMask or WalletConnect.
@@ -437,11 +436,13 @@ export const Home = (): JSX.Element => {
                               className="input-group-text btn"
                               id="basic-addon2"
                               onClick={() => {
-                                const value =
+                                const inputReferralElement =
                                   document.getElementById(
                                     'referral-input'
-                                  ).value
-                                navigator.clipboard.writeText(value)
+                                  ) as HTMLInputElement
+                                navigator.clipboard.writeText(
+                                  inputReferralElement.value
+                                )
                                 toast('Copied to clipboard.')
                               }}
                             >
