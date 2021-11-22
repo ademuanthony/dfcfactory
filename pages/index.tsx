@@ -260,7 +260,11 @@ export const Home = (): JSX.Element => {
                         </table>
                       </div>
                       <br />
-                      <form className="form" onSubmit={(e) => invest(e)}>
+                      <form
+                        className="form"
+                        onSubmit={(e) => invest(e)}
+                        style={{ border: '1px solid #dee2e6;', padding: 20 }}
+                      >
                         <article className="row">
                           <div className="col-md-4 col-sm-6 col-xs-12">
                             <div className="form-group mb-2">
